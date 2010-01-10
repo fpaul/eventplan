@@ -3,10 +3,12 @@ package com.florianpaul.epn.mdl;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import com.google.appengine.api.datastore.Key;
 
@@ -16,7 +18,9 @@ public class Plan {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Key key;
 	private String owner;
+	@OneToMany(cascade=CascadeType.ALL,mappedBy="plan")
 	private Collection<EventType> eventTypes = new ArrayList<EventType>();
+	@OneToMany(cascade=CascadeType.ALL,mappedBy="plan")
 	private Collection<ResourceType> resourceTypes = new ArrayList<ResourceType>();
 
 	public String getOwner() {

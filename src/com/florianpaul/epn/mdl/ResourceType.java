@@ -3,10 +3,13 @@ package com.florianpaul.epn.mdl;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.google.appengine.api.datastore.Key;
 
@@ -22,7 +25,14 @@ public class ResourceType {
 	private String name;
 	private String description;
 	private DataType datatype;
+	@OneToMany(cascade=CascadeType.ALL,mappedBy="type")
 	private Collection<ResourceItem> resourceItems = new ArrayList<ResourceItem>();
+	@ManyToOne(cascade=CascadeType.ALL)
+	private Plan plan;
+
+	public Plan getPlan() {
+		return plan;
+	}
 
 	public String getName() {
 		return name;

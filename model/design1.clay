@@ -10,17 +10,26 @@
 <column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7f99" mandatory="true" name="pk">
 <data-type name="INTEGER" selected-variant-pattern="INTEGER"/>
 </column>
-<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7faa" mandatory="false" name="name">
-<data-type name="TEXT" selected-variant-pattern="TEXT"/>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7d01" mandatory="true" name="event">
+<data-type name="INTEGER" selected-variant-pattern="INTEGER"/>
 </column>
 </column-list>
 <primary-key id="32eebb:12617316c07:-7ffe" name="PK_ATTENDEE">
 <primary-key-column name="pk"/>
 </primary-key>
+<foreign-key-list>
+<foreign-key id="32eebb:12617316c07:-7ce1" name="FK_ATTENDEE_1" on-delete="UNSPECIFIED" on-update="UNSPECIFIED" referenced-key="PK_EVENT" referenced-table="EVENT" referenced-table-schema="DEFAULT_SCHEMA" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="">
+<foreign-key-column column-name="event" referenced-key-column-name="pk"/>
+</foreign-key>
+</foreign-key-list>
 </table>
 <table id="32eebb:12617316c07:-7ffa" name="EVENT">
+<table-description>An event is an information holder for a concrete event planning activity. It is not intended to be reusable for other events - it is exactly one single happening.</table-description>
 <column-list>
 <column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7fa3" mandatory="true" name="pk">
+<data-type name="INTEGER" selected-variant-pattern="INTEGER"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7b9f" mandatory="true" name="type">
 <data-type name="INTEGER" selected-variant-pattern="INTEGER"/>
 </column>
 <column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7fae" mandatory="false" name="title">
@@ -30,14 +39,29 @@
 <primary-key id="32eebb:12617316c07:-7ff9" name="PK_EVENT">
 <primary-key-column name="pk"/>
 </primary-key>
+<foreign-key-list>
+<foreign-key id="32eebb:12617316c07:-7b72" name="FK_EVENT_1" on-delete="UNSPECIFIED" on-update="UNSPECIFIED" referenced-key="PK_EVENT_TYPE" referenced-table="EVENT_TYPE" referenced-table-schema="DEFAULT_SCHEMA" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="">
+<foreign-key-column column-name="type" referenced-key-column-name="pk"/>
+</foreign-key>
+</foreign-key-list>
 </table>
-<table id="32eebb:12617316c07:-7ff6" name="RESOURCE">
-<table-description>The resource is a data type of an information. It represents a collection of resource-items.</table-description>
+<table id="32eebb:12617316c07:-7ff6" name="RESOURCE_TYPE">
+<table-description>The resource is a data type of an information. It represents a collection of resource-items.
+
+Examples: 
+
+ - if the data type is a checkbox, the resource items are displayed by name as label. 
+   The attendee may select any of those checkboxes.
+
+ - if the type is a string (i.e. an email or a surname, etc.), then the item is directly 
+   associated with the attendee. The planning person can list all strings that are 
+   associated with the resource type and/or the attendee.
+</table-description>
 <column-list>
 <column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7fa0" mandatory="true" name="pk">
 <data-type name="INTEGER" selected-variant-pattern="INTEGER"/>
 </column>
-<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7f96" mandatory="true" name="event">
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7f96" mandatory="true" name="plan">
 <data-type name="INTEGER" selected-variant-pattern="INTEGER"/>
 </column>
 <column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7fb5" mandatory="false" name="name">
@@ -51,12 +75,12 @@
 <data-type name="INTEGER" selected-variant-pattern="INTEGER"/>
 </column>
 </column-list>
-<primary-key id="32eebb:12617316c07:-7ff5" name="PK_RESOURCE">
+<primary-key id="32eebb:12617316c07:-7ff5" name="PK_RESOURCE_TYPE">
 <primary-key-column name="pk"/>
 </primary-key>
 <foreign-key-list>
-<foreign-key id="32eebb:12617316c07:-7f4d" name="FK_RESOURCE_2" on-delete="UNSPECIFIED" on-update="UNSPECIFIED" referenced-key="PK_EVENT" referenced-table="EVENT" referenced-table-schema="DEFAULT_SCHEMA" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="">
-<foreign-key-column column-name="event" referenced-key-column-name="pk"/>
+<foreign-key id="32eebb:12617316c07:-7b2a" name="FK_RESOURCE_TYPE_1" on-delete="UNSPECIFIED" on-update="UNSPECIFIED" referenced-key="PK_PLAN" referenced-table="PLAN" referenced-table-schema="DEFAULT_SCHEMA" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="">
+<foreign-key-column column-name="plan" referenced-key-column-name="pk"/>
 </foreign-key>
 </foreign-key-list>
 </table>
@@ -71,53 +95,113 @@
 <column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7fb2" mandatory="false" name="name">
 <data-type name="TEXT" selected-variant-pattern="TEXT"/>
 </column>
-<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7fb1" mandatory="false" name="description">
-<data-type name="TEXT" selected-variant-pattern="TEXT"/>
-</column>
 </column-list>
 <primary-key id="32eebb:12617316c07:-7ff1" name="PK_RESOURCE_ITEM">
 <primary-key-column name="pk"/>
 </primary-key>
 <foreign-key-list>
-<foreign-key id="32eebb:12617316c07:-7ef4" name="FK_RESOURCE_ITEM_1" on-delete="UNSPECIFIED" on-update="UNSPECIFIED" referenced-key="PK_RESOURCE" referenced-table="RESOURCE" referenced-table-schema="DEFAULT_SCHEMA" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="">
+<foreign-key id="32eebb:12617316c07:-7ef4" name="FK_RESOURCE_ITEM_1" on-delete="UNSPECIFIED" on-update="UNSPECIFIED" referenced-key="PK_RESOURCE_TYPE" referenced-table="RESOURCE_TYPE" referenced-table-schema="DEFAULT_SCHEMA" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="">
 <foreign-key-column column-name="resource" referenced-key-column-name="pk"/>
 </foreign-key>
 </foreign-key-list>
 </table>
-<table id="32eebb:12617316c07:-7ee4" name="ATTRESITEM">
+<table id="32eebb:12617316c07:-7ee4" name="RA_REF">
 <column-list>
 <column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7ee0" mandatory="true" name="attendee">
 <data-type name="INTEGER" selected-variant-pattern="INTEGER"/>
 </column>
-<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7edf" mandatory="true" name="resourceitem">
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7edf" mandatory="true" name="item">
 <data-type name="INTEGER" selected-variant-pattern="INTEGER"/>
 </column>
 </column-list>
-<primary-key id="32eebb:12617316c07:-7ee3" name="PK_ATTRESITEM">
+<primary-key id="32eebb:12617316c07:-7ee3" name="PK_RA_REF">
 <primary-key-column name="attendee"/>
-<primary-key-column name="resourceitem"/>
+<primary-key-column name="item"/>
 </primary-key>
 <foreign-key-list>
 <foreign-key id="32eebb:12617316c07:-7d77" name="FK_ATTRESITEM_1" on-delete="UNSPECIFIED" on-update="UNSPECIFIED" referenced-key="PK_RESOURCE_ITEM" referenced-table="RESOURCE_ITEM" referenced-table-schema="DEFAULT_SCHEMA" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="">
-<foreign-key-column column-name="resourceitem" referenced-key-column-name="pk"/>
+<foreign-key-column column-name="item" referenced-key-column-name="pk"/>
 </foreign-key>
 <foreign-key id="32eebb:12617316c07:-7d31" name="FK_ATTRESITEM_2" on-delete="UNSPECIFIED" on-update="UNSPECIFIED" referenced-key="PK_ATTENDEE" referenced-table="ATTENDEE" referenced-table-schema="DEFAULT_SCHEMA" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="">
 <foreign-key-column column-name="attendee" referenced-key-column-name="pk"/>
 </foreign-key>
 </foreign-key-list>
 </table>
+<table id="32eebb:12617316c07:-7cd2" name="EVENT_TYPE">
+<table-description>An event type is a reusable template for concrete events. In this schema the planning person can design the relevant information for this type of event.</table-description>
+<column-list>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7cc8" mandatory="true" name="pk">
+<data-type name="INTEGER" selected-variant-pattern="INTEGER"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7c04" mandatory="true" name="plan">
+<data-type name="INTEGER" selected-variant-pattern="INTEGER"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7cc7" mandatory="false" name="name">
+<data-type name="TEXT" selected-variant-pattern="TEXT"/>
+</column>
+</column-list>
+<primary-key id="32eebb:12617316c07:-7cd1" name="PK_EVENT_TYPE">
+<primary-key-column name="pk"/>
+</primary-key>
+<foreign-key-list>
+<foreign-key id="32eebb:12617316c07:-7be3" name="FK_EVENT_TYPE_1" on-delete="UNSPECIFIED" on-update="UNSPECIFIED" referenced-key="PK_PLAN" referenced-table="PLAN" referenced-table-schema="DEFAULT_SCHEMA" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="">
+<foreign-key-column column-name="plan" referenced-key-column-name="pk"/>
+</foreign-key>
+</foreign-key-list>
+</table>
+<table id="32eebb:12617316c07:-7cb2" name="RE_REF">
+<table-description>A resource may appear at several event types. It is maintained at a plan's level. The resources are associated with one concrete event via the event type (the event template).</table-description>
+<column-list>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7cac" mandatory="true" name="resource">
+<data-type name="INTEGER" selected-variant-pattern="INTEGER"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7cab" mandatory="true" name="event">
+<data-type name="INTEGER" selected-variant-pattern="INTEGER"/>
+</column>
+</column-list>
+<primary-key id="32eebb:12617316c07:-7cb1" name="PK_RE_REF">
+<primary-key-column name="resource"/>
+<primary-key-column name="event"/>
+</primary-key>
+<foreign-key-list>
+<foreign-key id="32eebb:12617316c07:-7c78" name="FK_RESOURCE_REFERENCE_1" on-delete="UNSPECIFIED" on-update="UNSPECIFIED" referenced-key="PK_RESOURCE_TYPE" referenced-table="RESOURCE_TYPE" referenced-table-schema="DEFAULT_SCHEMA" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="">
+<foreign-key-column column-name="resource" referenced-key-column-name="pk"/>
+</foreign-key>
+<foreign-key id="32eebb:12617316c07:-7c47" name="FK_RESOURCE_REFERENCE_2" on-delete="UNSPECIFIED" on-update="UNSPECIFIED" referenced-key="PK_EVENT_TYPE" referenced-table="EVENT_TYPE" referenced-table-schema="DEFAULT_SCHEMA" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="">
+<foreign-key-column column-name="event" referenced-key-column-name="pk"/>
+</foreign-key>
+</foreign-key-list>
+</table>
+<table id="32eebb:12617316c07:-7c0c" name="PLAN">
+<table-description>A plan is a context for a user. One user (google user alias the planning person) can create several plans. For every plan the user can greate several event types and resources that can be reused in event planning over different event types.</table-description>
+<column-list>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7c08" mandatory="true" name="pk">
+<data-type name="INTEGER" selected-variant-pattern="INTEGER"/>
+</column>
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7c07" mandatory="false" name="owner">
+<column-description>Every plan is owned by a google user. So any user may create several plans.</column-description>
+<data-type name="TEXT" selected-variant-pattern="TEXT"/>
+</column>
+</column-list>
+<primary-key id="32eebb:12617316c07:-7c0b" name="PK_PLAN">
+<primary-key-column name="pk"/>
+</primary-key>
+</table>
 </table-list>
 </schema>
 </schema-list>
 </database-model>
 <diagram>
-<table-figure refid="32eebb:12617316c07:-7fff" x="466" y="143"/>
-<table-figure refid="32eebb:12617316c07:-7ffa" x="96" y="143"/>
-<table-figure refid="32eebb:12617316c07:-7ff6" x="71" y="283"/>
-<table-figure refid="32eebb:12617316c07:-7ff2" x="71" y="478"/>
-<table-figure refid="32eebb:12617316c07:-7ee4" x="440" y="497"/>
+<table-figure refid="32eebb:12617316c07:-7fff" x="622" y="271"/>
+<table-figure refid="32eebb:12617316c07:-7ffa" x="626" y="30"/>
+<table-figure refid="32eebb:12617316c07:-7ff6" x="54" y="241"/>
+<table-figure refid="32eebb:12617316c07:-7ff2" x="62" y="501"/>
+<table-figure refid="32eebb:12617316c07:-7ee4" x="611" y="510"/>
 <fk-figure refid="32eebb:12617316c07:-7d77">
 <source-terminal x="108" y="49"/>
 </fk-figure>
+<table-figure refid="32eebb:12617316c07:-7cd2" x="375" y="30"/>
+<table-figure refid="32eebb:12617316c07:-7cb2" x="364" y="270"/>
+<table-figure refid="32eebb:12617316c07:-7c0c" x="70" y="40"/>
 </diagram>
 </clay-model>

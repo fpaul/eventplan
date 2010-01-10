@@ -50,7 +50,7 @@
 
 Examples: 
 
- - if the data type is a checkbox, the resource items are displayed by name as label. 
+ - if the data type is a checkbox, the resource items are displayed by text as label. 
    The attendee may select any of those checkboxes.
 
  - if the type is a string (i.e. an email or a surname, etc.), then the item is directly 
@@ -92,7 +92,7 @@ Examples:
 <column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7f36" mandatory="true" name="resource">
 <data-type name="INTEGER" selected-variant-pattern="INTEGER"/>
 </column>
-<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7fb2" mandatory="false" name="name">
+<column auto-increment="false" column-size="0" decimal-digits="0" default-value="" id="32eebb:12617316c07:-7fb2" mandatory="false" name="text">
 <data-type name="TEXT" selected-variant-pattern="TEXT"/>
 </column>
 </column-list>

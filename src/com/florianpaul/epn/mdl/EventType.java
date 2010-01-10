@@ -17,6 +17,7 @@ public class EventType {
 	private Key key;
 	private String name;
 	private Collection<Event> events = new ArrayList<Event>();
+	private Collection<ResourceType> resourceTypes = new ArrayList<ResourceType>();
 
 	public String getName() {
 		return name;
@@ -32,6 +33,10 @@ public class EventType {
 
 	public Collection<Event> getEvents() {
 		return events;
+	}
+
+	public Collection<ResourceType> getResourceTypes() {
+		return resourceTypes;
 	}
 
 }

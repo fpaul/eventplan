@@ -34,13 +34,33 @@ public class Plan {
 	public Key getKey() {
 		return key;
 	}
-
-	public Collection<EventType> getEventTypes() {
-		return eventTypes;
+	
+	public void addEventType(EventType eventType) {
+		eventTypes.add(eventType);
+		eventType.plan = this;
+	}
+	
+	public void removeEventType(EventType eventType) {
+		eventTypes.remove(eventType);
+		eventType.plan = null;
 	}
 
+	public Collection<EventType> getEventTypes() {
+		return new ArrayList<EventType>(eventTypes);
+	}
+	
+	public void addResourceType(ResourceType resourceType) {
+		resourceTypes.add(resourceType);
+		resourceType.plan = this;
+	}
+	
+	public void removeResourceType(ResourceType resourceType) {
+		resourceTypes.remove(resourceType);
+		resourceType.plan = null;
+	}
+	
 	public Collection<ResourceType> getResourceTypes() {
-		return resourceTypes;
+		return new ArrayList<ResourceType>(resourceTypes);
 	}
 
 }

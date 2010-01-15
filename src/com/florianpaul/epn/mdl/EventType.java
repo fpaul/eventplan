@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -22,10 +21,9 @@ public class EventType {
 	private String name;
 	@OneToMany(cascade=CascadeType.ALL,mappedBy="type")
 	private Collection<Event> events = new ArrayList<Event>();
-	@ManyToMany(cascade=CascadeType.ALL)
-	private Collection<ResourceType> resourceTypes = new ArrayList<ResourceType>();
+	private Collection<Key> resourceTypeKeys = new ArrayList<Key>();
 	@ManyToOne(cascade=CascadeType.ALL)
-	private Plan plan;
+	Plan plan;
 
 	public Plan getPlan() {
 		return plan;
@@ -42,13 +40,48 @@ public class EventType {
 	public Key getKey() {
 		return key;
 	}
+	
+	public void addEvent(Event event) {
+		events.add(event);
+		event.type = this;
+	}
+	
+	public void removeEvent(Event event) {
+		events.remove(event);
+		event.type = null;
+	}
 
 	public Collection<Event> getEvents() {
-		return events;
+		return new ArrayList<Event>(events);
+	}
+	
+	public void addResourceTypes(Collection<ResourceType> resourceTypes) {
+		for(ResourceType rt : resourceTypes) {
+			addResourceType(rt);
+		}
+	}
+	
+	public void removeResourceTypes(Collection<ResourceType> resourceTypes) {
+		for(ResourceType rt : resourceTypes) {
+			removeResourceType(rt);
+		}
 	}
 
-	public Collection<ResourceType> getResourceTypes() {
-		return resourceTypes;
+	public void addResourceType(ResourceType resourceType) {
+		if(resourceType==null || resourceTypeKeys.contains(resourceType.getKey())) {
+			return;
+		}
+		resourceTypeKeys.add(resourceType.getKey());
+		resourceType.addEventType(this);
 	}
 
+	public void removeResourceType(ResourceType resourceType) {
+		if(resourceType==null || !resourceTypeKeys.contains(resourceType.getKey())) {
+			return;
+		}
+		resourceTypeKeys.remove(resourceType.getKey());
+		resourceType.removeEventType(this);
+	}
+	
+	
 }

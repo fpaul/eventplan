@@ -28,7 +28,8 @@ public class ResourceType {
 	@OneToMany(cascade=CascadeType.ALL,mappedBy="type")
 	private Collection<ResourceItem> resourceItems = new ArrayList<ResourceItem>();
 	@ManyToOne(cascade=CascadeType.ALL)
-	private Plan plan;
+	Plan plan;
+	private Collection<Key> eventTypeKeys = new ArrayList<Key>();
 
 	public Plan getPlan() {
 		return plan;
@@ -61,9 +62,46 @@ public class ResourceType {
 	public Key getKey() {
 		return key;
 	}
-
-	public Collection<ResourceItem> getResourceItems() {
-		return resourceItems;
+	
+	public void addResourceItem(ResourceItem resourceItem) {
+		resourceItems.add(resourceItem);
+		resourceItem.type = this;
+	}
+	
+	public void removeResourceItem(ResourceItem resourceItem) {
+		resourceItems.remove(resourceItem);
+		resourceItem.type = null;
 	}
 
+	public Collection<ResourceItem> getResourceItems() {
+		return new ArrayList<ResourceItem>(resourceItems);
+	}
+	
+	public void addEventTypes(Collection<EventType> eventTypes) {
+		for(EventType et : eventTypes) {
+			addEventType(et);
+		}
+	}
+	
+	public void removeEventTypes(Collection<EventType> eventTypes) {
+		for(EventType et : eventTypes) {
+			removeEventType(et);
+		}
+	}
+
+	public void addEventType(EventType eventType) {
+		if(eventType==null || eventTypeKeys.contains(eventType.getKey())) {
+			return;
+		}
+		eventTypeKeys.add(eventType.getKey());
+		eventType.addResourceType(this);
+	}
+	
+	public void removeEventType(EventType eventType) {
+		if(eventType==null || !eventTypeKeys.contains(eventType.getKey())) {
+			return;
+		}
+		eventTypeKeys.remove(eventType.getKey());
+		eventType.removeResourceType(this);
+	}
 }

@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import com.google.appengine.api.datastore.Key;
@@ -18,21 +17,35 @@ public class Attendee {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Key key;
-	@ManyToMany(cascade=CascadeType.ALL)
-	private Collection<ResourceItem> resourceItems = new ArrayList<ResourceItem>();
+	private Collection<Key> resourceItemKeys = new ArrayList<Key>();
+
 	@ManyToOne(cascade=CascadeType.ALL)
-	private Event event;
+	Event event;
 
 	public Event getEvent() {
 		return event;
 	}
 
-	public Collection<ResourceItem> getResourceItems() {
-		return resourceItems;
-	}
-
 	public Key getKey() {
 		return key;
 	}
+	
+	public void addResourceItem(ResourceItem resourceItem) {
+		if(resourceItem==null || resourceItemKeys.contains(resourceItem.getKey())) {
+			return;
+		}
+		resourceItemKeys.add(resourceItem.getKey());
+	}
+	
+	public void removeResourceItem(ResourceItem resourceItem) {
+		if(resourceItem==null || !resourceItemKeys.contains(resourceItem.getKey())) {
+			return;
+		}
+		resourceItemKeys.remove(resourceItem.getKey());
+	}
 
+	public Collection<Key> getResourceItemKeys() {
+		return new ArrayList<Key>(resourceItemKeys);
+	}
+	
 }

@@ -22,7 +22,7 @@ public class Event {
 	@OneToMany(cascade=CascadeType.ALL,mappedBy="event")
 	private Collection<Attendee> attendees = new ArrayList<Attendee>();
 	@ManyToOne(cascade=CascadeType.ALL)
-	private EventType type;
+	EventType type;
 
 	public EventType getType() {
 		return type;
@@ -35,9 +35,19 @@ public class Event {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
+	public void addAttendee(Attendee attendee) {
+		attendees.add(attendee);
+		attendee.event = this;
+	}
+	
+	public void removeAttendee(Attendee attendee) {
+		attendees.remove(attendee);
+		attendee.event = null;
+	}
 
 	public Collection<Attendee> getAttendees() {
-		return attendees;
+		return new ArrayList<Attendee>(attendees);
 	}
 
 	public Key getKey() {
